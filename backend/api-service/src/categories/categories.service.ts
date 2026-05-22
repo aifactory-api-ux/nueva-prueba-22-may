@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Category } from './category.entity';
 import { CreateCategoryDto, UpdateCategoryDto, CategoryResponseDto } from './category.dto';
-import { generateUUID, formatDateToISO } from '../../../shared/utils';
+import { generateUUID, formatDateToISO } from '../shared/utils';
 
 @Injectable()
 export class CategoriesService {

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from './product.entity';
 import { CreateProductDto, UpdateProductDto, ProductResponseDto } from './product.dto';
-import { generateUUID, formatDateToISO } from '../../../shared/utils';
+import { generateUUID, formatDateToISO } from '../shared/utils';
 import { CURRENCY_CODES } from '../shared/constants';
 
 @Injectable()

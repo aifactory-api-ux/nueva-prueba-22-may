@@ -1,5 +1,5 @@
 import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
-import { UserRole } from '../../../shared/types';
+import { UserRole } from '../shared/types';
 
 @Entity('users')
 export class User {

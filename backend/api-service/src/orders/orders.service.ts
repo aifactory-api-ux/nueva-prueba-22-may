@@ -5,8 +5,8 @@ import { Order, OrderItem } from './order.entity';
 import { Product } from '../products/product.entity';
 import { CartService } from '../cart/cart.service';
 import { CreateOrderDto, OrderResponseDto, OrderItemResponseDto } from './order.dto';
-import { generateUUID, formatDateToISO, calculateTotalAmount } from '../../../shared/utils';
-import { ORDER_STATUS, CURRENCY_CODES, DEFAULT_CURRENCY } from '../../../shared/types';
+import { generateUUID, formatDateToISO, calculateTotalAmount } from '../shared/utils';
+import { ORDER_STATUS, CURRENCY_CODES, DEFAULT_CURRENCY } from '../shared/types';
 
 @Injectable()
 export class OrdersService {

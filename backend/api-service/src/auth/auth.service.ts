@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/user.entity';
 import { RegisterDto, LoginDto } from './auth.dto';
-import { hashPassword, comparePassword, generateUUID, isValidEmail } from '../../../shared/utils';
-import { ROLES } from '../../../shared/types';
+import { hashPassword, comparePassword, generateUUID, isValidEmail } from '../shared/utils';
+import { ROLES } from '../shared/types';
 import * as jwt from 'jsonwebtoken';
 import { JWT_CONFIG } from '../shared/constants';
 

@@ -1,7 +1,7 @@
 import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../users/user.entity';
 import { Product } from '../products/product.entity';
-import { OrderStatus } from '../../../shared/types';
+import { OrderStatus } from '../shared/types';
 
 @Entity('orders')
 export class Order {

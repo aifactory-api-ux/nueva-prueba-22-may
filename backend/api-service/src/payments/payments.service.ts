@@ -1,9 +1,9 @@
 import { Injectable, BadRequestException, NotFoundException, InternalServerErrorException, Logger } from '@nestjs/common';
 import Stripe from 'stripe';
 import { OrdersService } from '../orders/orders.service';
-import { STRIPE_CONFIG, ORDER_STATUS } from '../../shared/constants';
+import { STRIPE_CONFIG, ORDER_STATUS } from '../shared/constants';
 import { CreatePaymentSessionDto, PaymentSessionResponseDto } from './payments.dto';
-import { validateUUID } from '../../../shared/utils';
+import { validateUUID } from '../shared/utils';
 
 @Injectable()
 export class PaymentsService {

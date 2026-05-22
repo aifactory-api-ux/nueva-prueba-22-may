@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { Cart, CartItem } from './cart.entity';
 import { Product } from '../products/product.entity';
 import { AddCartItemDto, UpdateCartItemDto, CartResponseDto, CartItemResponseDto } from './cart.dto';
-import { generateUUID, formatDateToISO } from '../../../shared/utils';
+import { generateUUID, formatDateToISO } from '../shared/utils';
 import { REDIS_CONFIG } from '../shared/constants';
 import Redis from 'ioredis';
 
