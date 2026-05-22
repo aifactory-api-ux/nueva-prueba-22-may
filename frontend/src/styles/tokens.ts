@@ -9,7 +9,11 @@ export const tokens = {
     success: '#38A169',
     warning: '#DD6B20',
     text: '#2D3748',
-    muted: '#A0AEC0'
+    text_primary: '#1A202C',
+    text_secondary: '#4A5568',
+    text_on_primary: '#FFFFFF',
+    muted: '#A0AEC0',
+    border: '#E2E8F0'
   },
   typography: {
     fontFamily: "'Inter', sans-serif",
