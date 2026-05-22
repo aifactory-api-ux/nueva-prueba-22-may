@@ -14,6 +14,9 @@ export class Cart {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
+  @OneToMany(() => CartItem, item => item.cart, { cascade: true, eager: false })
+  items: CartItem[];
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

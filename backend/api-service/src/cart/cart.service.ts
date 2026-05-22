@@ -34,7 +34,6 @@ export class CartService {
       password: redisPassword,
       db: 0,
       connectTimeout: 10000,
-      retryDelayOnFailover: 1000,
       maxRetriesPerRequest: 3,
     });
 

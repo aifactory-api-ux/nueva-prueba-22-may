@@ -1,4 +1,4 @@
-import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from '../users/user.entity';
 import { Product } from '../products/product.entity';
 import { OrderStatus } from '../shared/types';
@@ -28,8 +28,11 @@ export class Order {
   })
   status: OrderStatus;
 
+  @OneToMany(() => OrderItem, item => item.order, { cascade: true, eager: false })
+  items: OrderItem[];
+
   @Column('varchar', { length: 255, name: 'payment_intent_id', nullable: true })
-  paymentIntentId: string;
+  paymentIntentId: string | null;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

@@ -82,7 +82,7 @@ services:
     networks:
       - ecommerce_network
 
-frontend:
+web:
     build:
       context: ./frontend
       dockerfile: Dockerfile
