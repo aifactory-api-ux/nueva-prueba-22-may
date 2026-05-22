@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { tokens } from '../../styles/tokens';
 import { useCategories } from '../../hooks/useCategories';
 
