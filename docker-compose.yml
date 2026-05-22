@@ -41,8 +41,8 @@ services:
 
   api-service:
     build:
-      context: .
-      dockerfile: backend/api-service/Dockerfile
+      context: ./backend/api-service
+      dockerfile: Dockerfile
     container_name: ecommerce_api
     ports:
       - "${API_PORT:-23001}:23001"
