@@ -80,6 +80,10 @@ export class PaymentsService {
   }
 
   async handleWebhook(payload: Buffer, signature: string): Promise<{ received: boolean }> {
+    if (!this.stripe) {
+      throw new BadRequestException('Stripe is not configured. Please set STRIPE_SECRET_KEY environment variable.');
+    }
+
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
     if (!webhookSecret) {
       throw new Error('STRIPE_WEBHOOK_SECRET environment variable is required');
