@@ -1,0 +1,476 @@
+{
+  "project_id": "137acc08-f4a9-4482-acf1-69c3b664fde7",
+  "project_name": "Project",
+  "goal": "Implementar el proyecto: Project\n\nVisión: El proyecto surge de la necesidad de la empresa de establecer una presencia sólida en el mercado de comercio electrónico, específicamente como una tienda outlet premium de ropa y productos de alta gama, resolviendo la actual limitación de no disponer de un c",
+  "last_updated": "2026-05-22T17:21:44.118019Z",
+  "total_items": 35,
+  "completed_count": 32,
+  "status": "in_progress",
+  "current_item_index": 32,
+  "spec_file": "SPEC.md",
+  "plan_file": "DEVELOPMENT_PLAN.md",
+  "contract_manifest_available": true,
+  "all_files_created": [
+    "shared/types.ts",
+    "shared/utils.ts",
+    "backend/api-service/src/shared/constants.ts",
+    "backend/api-service/src/shared/types.ts",
+    "backend/api-service/src/shared/utils.ts",
+    "backend/api-service/src/config/ormconfig.ts",
+    "backend/api-service/src/config/redis.config.ts",
+    "backend/api-service/src/users/user.entity.ts",
+    "backend/api-service/src/products/product.entity.ts",
+    "backend/api-service/src/categories/category.entity.ts",
+    "backend/api-service/src/cart/cart.entity.ts",
+    "backend/api-service/src/orders/order.entity.ts",
+    ".coverage",
+    ".opencode/.gitignore",
+    ".opencode/package-lock.json",
+    ".opencode/package.json",
+    ".opencode/skills/frontend-design/SKILL.md",
+    ".opencode/skills/project/SKILL.md",
+    ".plan_checkpoint.json",
+    ".progress_log",
+    ".pytest_cache/.gitignore",
+    ".pytest_cache/CACHEDIR.TAG",
+    ".pytest_cache/README.md",
+    ".pytest_cache/v/cache/nodeids",
+    ".pytest_cache/v/cache/stepwise",
+    "DEVELOPMENT_PLAN.md",
+    "SPEC.md",
+    "api_contract.yaml",
+    "backend/api-service/src/products/products.module.ts",
+    "backend/api-service/src/products/products.controller.ts",
+    "backend/api-service/src/products/products.service.ts",
+    "backend/api-service/src/products/product.dto.ts",
+    "backend/api-service/src/categories/categories.module.ts",
+    "backend/api-service/src/categories/categories.controller.ts",
+    "backend/api-service/src/categories/categories.service.ts",
+    "backend/api-service/src/categories/category.dto.ts",
+    "backend/api-service/src/cart/cart.module.ts",
+    "backend/api-service/src/cart/cart.controller.ts",
+    "backend/api-service/src/cart/cart.service.ts",
+    "backend/api-service/src/cart/cart.dto.ts",
+    "backend/api-service/src/orders/orders.module.ts",
+    "backend/api-service/src/orders/orders.controller.ts",
+    "backend/api-service/src/orders/orders.service.ts",
+    "backend/api-service/src/orders/order.dto.ts",
+    "backend/api-service/src/payments/payments.module.ts",
+    "backend/api-service/src/payments/payments.controller.ts",
+    "backend/api-service/src/payments/payments.service.ts",
+    "backend/api-service/src/payments/payments.dto.ts",
+    "backend/api-service/src/main.ts",
+    "backend/api-service/src/app.module.ts",
+    "backend/api-service/Dockerfile",
+    "backend/api-service/nest-cli.json",
+    "backend/api-service/package.json",
+    "backend/api-service/src/health/health.controller.ts",
+    "backend/api-service/src/health/health.module.ts",
+    "backend/api-service/tsconfig.json",
+    "docker-compose.yml",
+    "run.sh",
+    "README.md",
+    ".dockerignore",
+    ".env.example",
+    ".gitignore",
+    "backend/api-service/Dockerfile.test.ts",
+    "backend/api-service/run_tests.sh",
+    "backend/api-service/src/app.module.test.ts",
+    "backend/api-service/src/main.test.ts",
+    "docs/uiux/api-contract.yaml",
+    "docs/uiux/component-guide.md",
+    "docs/uiux/design-contract.md",
+    "frontend/src/styles/tokens.ts",
+    "frontend/src/hooks/useAuth.ts",
+    "frontend/package-lock.json",
+    "frontend/src/hooks/useCategories.ts",
+    "frontend/src/hooks/useCart.ts",
+    "frontend/src/hooks/useOrders.ts",
+    "frontend/src/pages/InicioPage.tsx",
+    "frontend/src/pages/CatalogoDeProductosPage.tsx",
+    "frontend/src/App.tsx",
+    "frontend/src/pages/DetalleDeProductoPage.tsx",
+    "frontend/src/pages/CarritoDeComprasPage.tsx",
+    "frontend/src/pages/OrderHistoryPage.tsx",
+    "frontend/src/components/ui/NavbarPrincipal.tsx",
+    "frontend/src/components/ui/BotonCtaPrimario.tsx",
+    "frontend/src/components/ui/TarjetaDeProducto.tsx",
+    "frontend/src/components/ui/InputDeBusqueda.tsx",
+    "frontend/src/components/ui/FiltrosDeCatalogo.tsx",
+    "frontend/src/components/ui/BadgeDeDescuento.tsx",
+    "frontend/src/components/ui/Footer.tsx",
+    "frontend/src/components/ui/ModalDeCarrito.tsx",
+    "frontend/src/components/ui/FormularioDeCheckout.tsx",
+    "frontend/src/components/ui/SelectorDeCantidad.tsx",
+    "frontend/e2e/auth.spec.ts",
+    "frontend/e2e/cart.spec.ts",
+    "frontend/playwright.config.ts",
+    "backend/api-service/src/auth/auth.controller.ts",
+    "backend/api-service/src/auth/auth.service.ts",
+    "backend/api-service/src/users/users.controller.ts",
+    "frontend/nginx.conf"
+  ],
+  "items": [
+    {
+      "item_number": 1,
+      "title": "Foundation — shared types, interfaces, DB schemas, config",
+      "wave": 1,
+      "files_created": [
+        "shared/types.ts",
+        "shared/utils.ts",
+        "backend/api-service/src/shared/constants.ts",
+        "backend/api-service/src/shared/types.ts",
+        "backend/api-service/src/shared/utils.ts",
+        "backend/api-service/src/config/ormconfig.ts",
+        "backend/api-service/src/config/redis.config.ts",
+        "backend/api-service/src/users/user.entity.ts",
+        "backend/api-service/src/products/product.entity.ts",
+        "backend/api-service/src/categories/category.entity.ts",
+        "backend/api-service/src/cart/cart.entity.ts",
+        "backend/api-service/src/orders/order.entity.ts"
+      ],
+      "completed_at": "2026-05-22T14:47:17.621737Z"
+    },
+    {
+      "item_number": 2,
+      "title": "Authentication & User Management — Auth endpoints, user CRUD, JWT, RBAC",
+      "wave": 2,
+      "files_created": [
+        ".coverage",
+        ".opencode/.gitignore",
+        ".opencode/package-lock.json",
+        ".opencode/package.json",
+        ".opencode/skills/frontend-design/SKILL.md",
+        ".opencode/skills/project/SKILL.md",
+        ".plan_checkpoint.json",
+        ".progress_log",
+        ".pytest_cache/.gitignore",
+        ".pytest_cache/CACHEDIR.TAG",
+        ".pytest_cache/README.md",
+        ".pytest_cache/v/cache/nodeids",
+        ".pytest_cache/v/cache/stepwise",
+        "DEVELOPMENT_PLAN.md",
+        "SPEC.md",
+        "api_contract.yaml"
+      ],
+      "completed_at": "2026-05-22T14:50:08.252966Z"
+    },
+    {
+      "item_number": 3,
+      "title": "Product & Category Management — Catalog endpoints, filtering, admin CRUD",
+      "wave": 2,
+      "files_created": [
+        "backend/api-service/src/products/products.module.ts",
+        "backend/api-service/src/products/products.controller.ts",
+        "backend/api-service/src/products/products.service.ts",
+        "backend/api-service/src/products/product.dto.ts",
+        "backend/api-service/src/categories/categories.module.ts",
+        "backend/api-service/src/categories/categories.controller.ts",
+        "backend/api-service/src/categories/categories.service.ts",
+        "backend/api-service/src/categories/category.dto.ts"
+      ],
+      "completed_at": "2026-05-22T15:00:39.760906Z"
+    },
+    {
+      "item_number": 4,
+      "title": "Cart & Order Management — Cart endpoints, order creation, order history",
+      "wave": 2,
+      "files_created": [
+        "backend/api-service/src/cart/cart.module.ts",
+        "backend/api-service/src/cart/cart.controller.ts",
+        "backend/api-service/src/cart/cart.service.ts",
+        "backend/api-service/src/cart/cart.dto.ts",
+        "backend/api-service/src/orders/orders.module.ts",
+        "backend/api-service/src/orders/orders.controller.ts",
+        "backend/api-service/src/orders/orders.service.ts",
+        "backend/api-service/src/orders/order.dto.ts"
+      ],
+      "completed_at": "2026-05-22T15:07:48.496715Z"
+    },
+    {
+      "item_number": 5,
+      "title": "Payments Integration — Stripe session, webhook, payment status",
+      "wave": 2,
+      "files_created": [
+        "backend/api-service/src/payments/payments.module.ts",
+        "backend/api-service/src/payments/payments.controller.ts",
+        "backend/api-service/src/payments/payments.service.ts",
+        "backend/api-service/src/payments/payments.dto.ts"
+      ],
+      "completed_at": "2026-05-22T15:13:06.648763Z"
+    },
+    {
+      "item_number": 6,
+      "title": "Backend Service Entrypoint, App Module, Dockerfile",
+      "wave": 3,
+      "files_created": [
+        "backend/api-service/src/main.ts",
+        "backend/api-service/src/app.module.ts",
+        "backend/api-service/Dockerfile",
+        "backend/api-service/nest-cli.json",
+        "backend/api-service/package.json",
+        "backend/api-service/src/health/health.controller.ts",
+        "backend/api-service/src/health/health.module.ts",
+        "backend/api-service/tsconfig.json"
+      ],
+      "completed_at": "2026-05-22T15:17:19.353018Z"
+    },
+    {
+      "item_number": 7,
+      "title": "Infrastructure & Deployment — Docker Compose, env, scripts, docs",
+      "wave": 4,
+      "files_created": [
+        "docker-compose.yml",
+        "run.sh",
+        "README.md",
+        ".dockerignore",
+        ".env.example",
+        ".gitignore"
+      ],
+      "completed_at": "2026-05-22T15:23:03.246871Z"
+    },
+    {
+      "item_number": 8,
+      "title": "Frontend Infrastructure Setup (React 18 + Vite)",
+      "wave": 5,
+      "files_created": [
+        "docker-compose.yml",
+        "backend/api-service/Dockerfile.test.ts",
+        "backend/api-service/run_tests.sh",
+        "backend/api-service/src/app.module.test.ts",
+        "backend/api-service/src/main.test.ts",
+        "docs/uiux/api-contract.yaml",
+        "docs/uiux/component-guide.md",
+        "docs/uiux/design-contract.md"
+      ],
+      "completed_at": "2026-05-22T15:26:34.882789Z"
+    },
+    {
+      "item_number": 9,
+      "title": "Design Tokens File",
+      "wave": 5,
+      "files_created": [
+        "frontend/src/styles/tokens.ts"
+      ],
+      "completed_at": "2026-05-22T15:37:36.743279Z"
+    },
+    {
+      "item_number": 25,
+      "title": "useAuth Hook",
+      "wave": 5,
+      "files_created": [
+        "frontend/src/hooks/useAuth.ts"
+      ],
+      "completed_at": "2026-05-22T15:39:09.156656Z"
+    },
+    {
+      "item_number": 26,
+      "title": "useProducts Hook",
+      "wave": 5,
+      "files_created": [
+        "frontend/package-lock.json"
+      ],
+      "completed_at": "2026-05-22T15:40:42.431995Z"
+    },
+    {
+      "item_number": 27,
+      "title": "useCategories Hook",
+      "wave": 5,
+      "files_created": [
+        "frontend/src/hooks/useCategories.ts"
+      ],
+      "completed_at": "2026-05-22T15:44:40.617797Z"
+    },
+    {
+      "item_number": 28,
+      "title": "useCart Hook",
+      "wave": 5,
+      "files_created": [
+        "frontend/src/hooks/useCart.ts"
+      ],
+      "completed_at": "2026-05-22T15:50:03.748865Z"
+    },
+    {
+      "item_number": 29,
+      "title": "useOrders Hook",
+      "wave": 5,
+      "files_created": [
+        "frontend/src/hooks/useOrders.ts"
+      ],
+      "completed_at": "2026-05-22T15:54:46.471283Z"
+    },
+    {
+      "item_number": 10,
+      "title": "InicioPage",
+      "wave": 6,
+      "files_created": [
+        "frontend/src/pages/InicioPage.tsx"
+      ],
+      "completed_at": "2026-05-22T15:59:06.764007Z"
+    },
+    {
+      "item_number": 11,
+      "title": "CatalogoDeProductosPage",
+      "wave": 6,
+      "files_created": [
+        "frontend/src/pages/CatalogoDeProductosPage.tsx",
+        "frontend/src/App.tsx"
+      ],
+      "completed_at": "2026-05-22T16:03:03.590976Z"
+    },
+    {
+      "item_number": 12,
+      "title": "DetalleDeProductoPage",
+      "wave": 6,
+      "files_created": [
+        "frontend/src/pages/DetalleDeProductoPage.tsx"
+      ],
+      "completed_at": "2026-05-22T16:08:01.825786Z"
+    },
+    {
+      "item_number": 13,
+      "title": "CarritoDeComprasPage",
+      "wave": 6,
+      "files_created": [
+        "frontend/src/pages/CarritoDeComprasPage.tsx"
+      ],
+      "completed_at": "2026-05-22T16:15:09.093956Z"
+    },
+    {
+      "item_number": 14,
+      "title": "OrderHistoryPage",
+      "wave": 6,
+      "files_created": [
+        "frontend/src/pages/OrderHistoryPage.tsx"
+      ],
+      "completed_at": "2026-05-22T16:21:22.735850Z"
+    },
+    {
+      "item_number": 15,
+      "title": "NavbarPrincipal",
+      "wave": 6,
+      "files_created": [
+        "frontend/src/components/ui/NavbarPrincipal.tsx"
+      ],
+      "completed_at": "2026-05-22T16:26:54.180554Z"
+    },
+    {
+      "item_number": 16,
+      "title": "BotonCtaPrimario",
+      "wave": 6,
+      "files_created": [
+        "frontend/src/components/ui/BotonCtaPrimario.tsx"
+      ],
+      "completed_at": "2026-05-22T16:29:47.200408Z"
+    },
+    {
+      "item_number": 17,
+      "title": "TarjetaDeProducto",
+      "wave": 6,
+      "files_created": [
+        "frontend/src/components/ui/TarjetaDeProducto.tsx"
+      ],
+      "completed_at": "2026-05-22T16:32:27.000804Z"
+    },
+    {
+      "item_number": 18,
+      "title": "InputDeBusqueda",
+      "wave": 6,
+      "files_created": [
+        "frontend/src/components/ui/InputDeBusqueda.tsx"
+      ],
+      "completed_at": "2026-05-22T16:34:37.637468Z"
+    },
+    {
+      "item_number": 19,
+      "title": "FiltrosDeCatalogo",
+      "wave": 6,
+      "files_created": [
+        "frontend/src/components/ui/FiltrosDeCatalogo.tsx"
+      ],
+      "completed_at": "2026-05-22T16:37:45.218919Z"
+    },
+    {
+      "item_number": 20,
+      "title": "BadgeDeDescuento",
+      "wave": 6,
+      "files_created": [
+        "frontend/src/components/ui/BadgeDeDescuento.tsx"
+      ],
+      "completed_at": "2026-05-22T16:40:31.943051Z"
+    },
+    {
+      "item_number": 21,
+      "title": "Footer",
+      "wave": 6,
+      "files_created": [
+        "frontend/src/components/ui/Footer.tsx"
+      ],
+      "completed_at": "2026-05-22T16:43:00.578351Z"
+    },
+    {
+      "item_number": 22,
+      "title": "ModalDeCarrito",
+      "wave": 6,
+      "files_created": [
+        "frontend/src/components/ui/ModalDeCarrito.tsx"
+      ],
+      "completed_at": "2026-05-22T16:47:19.975247Z"
+    },
+    {
+      "item_number": 23,
+      "title": "FormularioDeCheckout",
+      "wave": 6,
+      "files_created": [
+        "frontend/src/components/ui/FormularioDeCheckout.tsx"
+      ],
+      "completed_at": "2026-05-22T16:52:36.420399Z"
+    },
+    {
+      "item_number": 24,
+      "title": "SelectorDeCantidad",
+      "wave": 6,
+      "files_created": [
+        "frontend/src/components/ui/SelectorDeCantidad.tsx"
+      ],
+      "completed_at": "2026-05-22T16:55:05.132330Z"
+    },
+    {
+      "item_number": 30,
+      "title": "Frontend E2E Tests — Full-Stack Integration",
+      "wave": 8,
+      "files_created": [
+        "frontend/e2e/auth.spec.ts",
+        "frontend/e2e/cart.spec.ts",
+        "frontend/playwright.config.ts"
+      ],
+      "completed_at": "2026-05-22T16:58:51.056607Z"
+    },
+    {
+      "item_number": "fix-integration-1",
+      "title": "Integration fix: Frontend calls '/api/products/${id}' but it's not in api_contract.yaml",
+      "wave": 9,
+      "files_created": [],
+      "completed_at": "2026-05-22T17:06:46.794669Z"
+    },
+    {
+      "item_number": "fix-integration-2",
+      "title": "Integration fix: Frontend calls '/api/products/${p}' but it's not in api_contract.yaml",
+      "wave": 9,
+      "files_created": [
+        "backend/api-service/src/auth/auth.controller.ts",
+        "backend/api-service/src/auth/auth.service.ts",
+        "backend/api-service/src/users/users.controller.ts",
+        "frontend/nginx.conf"
+      ],
+      "completed_at": "2026-05-22T17:17:35.795530Z"
+    },
+    {
+      "item_number": "fix-integration-3",
+      "title": "Integration fix: Contract defines POST /api/auth/login but no matching backend route found",
+      "wave": 9,
+      "files_created": [],
+      "completed_at": "2026-05-22T17:21:44.118019Z"
+    }
+  ]
+}

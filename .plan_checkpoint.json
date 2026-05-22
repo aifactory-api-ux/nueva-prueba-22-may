@@ -1,0 +1,1137 @@
+{
+  "plan_items": [
+    {
+      "item_number": 1,
+      "title": "Foundation \u2014 shared types, interfaces, DB schemas, config",
+      "goal": "Create all shared code and configuration required by all backend modules. This includes TypeScript interfaces for all data contracts (User, Product, Category, Cart, CartItem, Order, OrderItem, AuthToken, PaymentSession), enums for roles/statuses, shared utility functions, and environment/config validation. Also includes TypeORM entity definitions for all main models, shared constants, and utility functions.",
+      "files": [
+        {
+          "path": "shared/types.ts",
+          "action": "create",
+          "purpose": "All TypeScript interfaces and enums as per SPEC.md \u00a72 (User, Product, Category, Cart, CartItem, Order, OrderItem, AuthToken, PaymentSession, roles/status enums)"
+        },
+        {
+          "path": "shared/utils.ts",
+          "action": "create",
+          "purpose": "Shared utility functions (e.g., date formatting, ID generation, hashing helpers)"
+        },
+        {
+          "path": "backend/api-service/src/shared/constants.ts",
+          "action": "create",
+          "purpose": "Shared constants (e.g., role/status enums, currency codes)"
+        },
+        {
+          "path": "backend/api-service/src/shared/types.ts",
+          "action": "create",
+          "purpose": "TypeScript types/interfaces for backend (imported from shared/types.ts)"
+        },
+        {
+          "path": "backend/api-service/src/shared/utils.ts",
+          "action": "create",
+          "purpose": "Utility functions for backend modules (imported from shared/utils.ts)"
+        },
+        {
+          "path": "backend/api-service/src/config/ormconfig.ts",
+          "action": "create",
+          "purpose": "TypeORM configuration (env-driven, validated)"
+        },
+        {
+          "path": "backend/api-service/src/config/redis.config.ts",
+          "action": "create",
+          "purpose": "Redis connection config (env-driven, validated)"
+        },
+        {
+          "path": "backend/api-service/src/users/user.entity.ts",
+          "action": "create",
+          "purpose": "TypeORM entity for User (matches SPEC.md and DB diagram)"
+        },
+        {
+          "path": "backend/api-service/src/products/product.entity.ts",
+          "action": "create",
+          "purpose": "TypeORM entity for Product (matches SPEC.md and DB diagram)"
+        },
+        {
+          "path": "backend/api-service/src/categories/category.entity.ts",
+          "action": "create",
+          "purpose": "TypeORM entity for Category (matches SPEC.md and DB diagram)"
+        },
+        {
+          "path": "backend/api-service/src/cart/cart.entity.ts",
+          "action": "create",
+          "purpose": "TypeORM entity for Cart and CartItem (matches SPEC.md and DB diagram)"
+        },
+        {
+          "path": "backend/api-service/src/orders/order.entity.ts",
+          "action": "create",
+          "purpose": "TypeORM entity for Order and OrderItem (matches SPEC.md and DB diagram)"
+        }
+      ],
+      "dependencies": "None",
+      "validation": "`tsc --noEmit` passes in shared/ and backend/api-service/src/; all interfaces and entities match SPEC.md and DB diagram; config files validate required env vars on import.",
+      "status": "done",
+      "role_id": "role-tl",
+      "role_category": "technical_lead",
+      "wave": 1
+    },
+    {
+      "item_number": 2,
+      "title": "Authentication & User Management \u2014 Auth endpoints, user CRUD, JWT, RBAC",
+      "goal": "Implement all authentication and user management endpoints and logic as per SPEC.md. Includes registration, login, token refresh, get current user, JWT strategy, password hashing, and RBAC enforcement for admin/customer roles.",
+      "files": [
+        {
+          "path": "backend/api-service/src/auth/auth.module.ts",
+          "action": "create",
+          "purpose": "NestJS module definition for auth"
+        },
+        {
+          "path": "backend/api-service/src/auth/auth.controller.ts",
+          "action": "create",
+          "purpose": "Implements: POST /api/auth/register, POST /api/auth/login, POST /api/auth/refresh, GET /api/auth/me"
+        },
+        {
+          "path": "backend/api-service/src/auth/auth.service.ts",
+          "action": "create",
+          "purpose": "Business logic for registration, login, token issuance, refresh, and user lookup"
+        },
+        {
+          "path": "backend/api-service/src/auth/jwt.strategy.ts",
+          "action": "create",
+          "purpose": "JWT validation and role enforcement"
+        },
+        {
+          "path": "backend/api-service/src/auth/auth.dto.ts",
+          "action": "create",
+          "purpose": "DTOs for auth requests/responses (register, login, token, etc.)"
+        },
+        {
+          "path": "backend/api-service/src/users/users.module.ts",
+          "action": "create",
+          "purpose": "User module definition"
+        },
+        {
+          "path": "backend/api-service/src/users/users.controller.ts",
+          "action": "create",
+          "purpose": "User CRUD endpoints (if needed for admin, otherwise only internal use)"
+        },
+        {
+          "path": "backend/api-service/src/users/users.service.ts",
+          "action": "create",
+          "purpose": "User management logic (find, create, update, etc.)"
+        },
+        {
+          "path": "backend/api-service/src/users/user.dto.ts",
+          "action": "create",
+          "purpose": "DTOs for user entity"
+        }
+      ],
+      "dependencies": "Item 1",
+      "validation": "`curl` to /api/auth/register, /api/auth/login, /api/auth/refresh, /api/auth/me returns correct responses; JWT tokens are issued and validated; RBAC enforced on protected endpoints.",
+      "status": "done",
+      "role_id": "role-be",
+      "role_category": "backend_developer",
+      "wave": 2
+    },
+    {
+      "item_number": 3,
+      "title": "Product & Category Management \u2014 Catalog endpoints, filtering, admin CRUD",
+      "goal": "Implement all product and category endpoints as per SPEC.md. Includes product listing (with optional category filter), product detail, admin-only create/update/delete for products and categories, and category listing.",
+      "files": [
+        {
+          "path": "backend/api-service/src/products/products.module.ts",
+          "action": "create",
+          "purpose": "Product module definition"
+        },
+        {
+          "path": "backend/api-service/src/products/products.controller.ts",
+          "action": "create",
+          "purpose": "Implements: GET /api/products, GET /api/products/:id, POST /api/products, PUT /api/products/:id, DELETE /api/products/:id"
+        },
+        {
+          "path": "backend/api-service/src/products/products.service.ts",
+          "action": "create",
+          "purpose": "Business logic for product CRUD and filtering"
+        },
+        {
+          "path": "backend/api-service/src/products/product.dto.ts",
+          "action": "create",
+          "purpose": "DTOs for product requests/responses"
+        },
+        {
+          "path": "backend/api-service/src/categories/categories.module.ts",
+          "action": "create",
+          "purpose": "Category module definition"
+        },
+        {
+          "path": "backend/api-service/src/categories/categories.controller.ts",
+          "action": "create",
+          "purpose": "Implements: GET /api/categories, POST /api/categories, PUT /api/categories/:id, DELETE /api/categories/:id"
+        },
+        {
+          "path": "backend/api-service/src/categories/categories.service.ts",
+          "action": "create",
+          "purpose": "Business logic for category CRUD"
+        },
+        {
+          "path": "backend/api-service/src/categories/category.dto.ts",
+          "action": "create",
+          "purpose": "DTOs for category requests/responses"
+        }
+      ],
+      "dependencies": "Item 1",
+      "validation": "`curl` to /api/products and /api/categories returns paginated/filterable lists; admin-only endpoints enforce RBAC; product/category CRUD works as per SPEC.md.",
+      "status": "done",
+      "role_id": "role-be",
+      "role_category": "backend_developer",
+      "wave": 2
+    },
+    {
+      "item_number": 4,
+      "title": "Cart & Order Management \u2014 Cart endpoints, order creation, order history",
+      "goal": "Implement all cart and order endpoints as per SPEC.md. Includes cart retrieval, add/update/remove items, order creation from cart, order listing/history, and order detail. Cart is persisted per user (Redis-backed), and order creation decrements stock and clears cart.",
+      "files": [
+        {
+          "path": "backend/api-service/src/cart/cart.module.ts",
+          "action": "create",
+          "purpose": "Cart module definition"
+        },
+        {
+          "path": "backend/api-service/src/cart/cart.controller.ts",
+          "action": "create",
+          "purpose": "Implements: GET /api/cart, POST /api/cart/items, PUT /api/cart/items/:productId, DELETE /api/cart/items/:productId"
+        },
+        {
+          "path": "backend/api-service/src/cart/cart.service.ts",
+          "action": "create",
+          "purpose": "Business logic for cart management (add, update, remove, persist in Redis)"
+        },
+        {
+          "path": "backend/api-service/src/cart/cart.dto.ts",
+          "action": "create",
+          "purpose": "DTOs for cart requests/responses"
+        },
+        {
+          "path": "backend/api-service/src/orders/orders.module.ts",
+          "action": "create",
+          "purpose": "Orders module definition"
+        },
+        {
+          "path": "backend/api-service/src/orders/orders.controller.ts",
+          "action": "create",
+          "purpose": "Implements: GET /api/orders, GET /api/orders/:id, POST /api/orders"
+        },
+        {
+          "path": "backend/api-service/src/orders/orders.service.ts",
+          "action": "create",
+          "purpose": "Business logic for order creation, status management, stock decrement, order history"
+        },
+        {
+          "path": "backend/api-service/src/orders/order.dto.ts",
+          "action": "create",
+          "purpose": "DTOs for order requests/responses"
+        }
+      ],
+      "dependencies": "Item 1",
+      "validation": "`curl` to /api/cart and /api/orders endpoints returns correct data; cart persists per user; order creation decrements stock and clears cart; order history is accurate.",
+      "status": "done",
+      "role_id": "role-be",
+      "role_category": "backend_developer",
+      "wave": 2
+    },
+    {
+      "item_number": 5,
+      "title": "Payments Integration \u2014 Stripe session, webhook, payment status",
+      "goal": "Implement payment endpoints and Stripe integration as per SPEC.md. Includes creating Stripe payment sessions for orders, handling Stripe webhooks to update order/payment status, and ensuring payment status is reflected in orders.",
+      "files": [
+        {
+          "path": "backend/api-service/src/payments/payments.module.ts",
+          "action": "create",
+          "purpose": "Payments module definition"
+        },
+        {
+          "path": "backend/api-service/src/payments/payments.controller.ts",
+          "action": "create",
+          "purpose": "Implements: POST /api/payments/create-session, POST /api/payments/webhook"
+        },
+        {
+          "path": "backend/api-service/src/payments/payments.service.ts",
+          "action": "create",
+          "purpose": "Business logic for Stripe session creation, webhook handling, payment status updates"
+        },
+        {
+          "path": "backend/api-service/src/payments/payments.dto.ts",
+          "action": "create",
+          "purpose": "DTOs for payment requests/responses"
+        }
+      ],
+      "dependencies": "Item 1",
+      "validation": "`curl` to /api/payments/create-session returns Stripe session URL; Stripe webhook updates order/payment status; payment status is reflected in order entity.",
+      "status": "done",
+      "role_id": "role-be",
+      "role_category": "backend_developer",
+      "wave": 2
+    },
+    {
+      "item_number": 6,
+      "title": "Backend Service Entrypoint, App Module, Dockerfile",
+      "goal": "Implement the NestJS application entrypoint, root module, and Dockerfile for the backend API service. Ensures all modules are registered, healthcheck endpoint is available, and service runs on the correct port with production-ready Dockerfile.",
+      "files": [
+        {
+          "path": "backend/api-service/src/main.ts",
+          "action": "create",
+          "purpose": "NestJS bootstrap entrypoint, sets up app, global pipes, logging, healthcheck endpoint"
+        },
+        {
+          "path": "backend/api-service/src/app.module.ts",
+          "action": "create",
+          "purpose": "Root NestJS module, imports all feature modules"
+        }
+      ],
+      "dependencies": "Item 1, Item 2, Item 3, Item 4, Item 5",
+      "validation": "`docker build` and `docker run` for backend/api-service succeeds; `/health` endpoint returns status; all modules are registered and functional.",
+      "status": "done",
+      "role_id": "role-be",
+      "role_category": "backend_developer",
+      "wave": 3
+    },
+    {
+      "item_number": 7,
+      "title": "Infrastructure & Deployment \u2014 Docker Compose, env, scripts, docs",
+      "goal": "Provide complete infrastructure for local/dev deployment. Includes docker-compose.yml with all services (backend, postgres, redis), healthchecks, environment variable template, run script, .gitignore, .dockerignore, and documentation.",
+      "files": [
+        {
+          "path": "docker-compose.yml",
+          "action": "create",
+          "purpose": "Orchestrates backend/api-service, postgres, redis; healthchecks and depends_on for all; correct ports per SPEC.md"
+        },
+        {
+          "path": "run.sh",
+          "action": "create",
+          "purpose": "Validates Docker, builds images, starts services, waits for health, prints access URL"
+        },
+        {
+          "path": "README.md",
+          "action": "create",
+          "purpose": "Setup instructions, endpoints, troubleshooting, architecture overview"
+        }
+      ],
+      "dependencies": "Item 1, Item 2, Item 3, Item 4, Item 5, Item 6",
+      "validation": "`./run.sh` completes with all services healthy; API accessible at http://localhost:23001; all endpoints respond; sample data present.",
+      "status": "done",
+      "role_id": "role-devops",
+      "role_category": "devops_support",
+      "wave": 4
+    },
+    {
+      "item_number": 8,
+      "title": "Frontend Infrastructure Setup (React 18 + Vite)",
+      "goal": "Create ALL foundational React 18 + Vite files required before any page can run. This item MUST be completed first and completely. Includes: package.json, framework config with /api/* proxy, entrypoint, router / app shell with routes for all pages, base HTTP client (RELATIVE URLs ONLY), auth state management, nginx.conf (proxy /api/* \u2192 backend), multi-stage Dockerfile, and frontend service in docker-compose.yml. READ these context files before implementing: `docs/uiux/design-contract.md`, `docs/uiux/api-contract.yaml`, `docs/uiux/component-guide.md`.",
+      "design_specs": {
+        "tech_stack": "React 18 + Vite",
+        "detected_from": "uiux_contract + spec_content + goal",
+        "critical_constraint": "NEVER use build-time env vars for the API URL (VITE_API_URL, NEXT_PUBLIC_API_URL, NG_APP_API_URL, etc.). ALL HTTP calls MUST use RELATIVE paths (/api/...). The web server (nginx or framework dev proxy) routes /api/* to the backend container.",
+        "proxy_pattern": "Dev: framework config proxy (vite server.proxy, next.config rewrites, angular proxy.conf.json, etc.). Prod: nginx location /api/ { proxy_pass http://backend:23001/api/; }",
+        "api_client": "One shared api.ts (or api.js) module that ONLY uses relative paths. All pages/components import from this module \u2014 no direct fetch() calls in UI code.",
+        "pages": "Inicio, Catlogodeproductos, Detalledeproducto, Carritodecompras, LoginPage, RegisterPage, CartPage"
+      },
+      "files": [
+        {
+          "path": "frontend/package.json",
+          "action": "create",
+          "purpose": "react@18, react-dom@18, react-router-dom@6, @tanstack/react-query@5, axios. DevDeps: vite, @vitejs/plugin-react, typescript, @types/react, @playwright/test. Scripts: dev, build, preview, test:e2e."
+        },
+        {
+          "path": "frontend/vite.config.ts",
+          "action": "create",
+          "purpose": "plugins=[react()], server.proxy={ '/api': { target: 'http://backend:23001', changeOrigin: true } }. NO define block with API URLs."
+        },
+        {
+          "path": "frontend/tsconfig.json",
+          "action": "create",
+          "purpose": "TypeScript strict config, jsx: react-jsx, paths alias @/* \u2192 src/*."
+        },
+        {
+          "path": "frontend/index.html",
+          "action": "create",
+          "purpose": "<div id='root'> + <script type='module' src='/src/main.tsx'>"
+        },
+        {
+          "path": "frontend/src/main.tsx",
+          "action": "create",
+          "purpose": "Bootstrap: ReactDOM.createRoot.render(<QueryClientProvider><BrowserRouter><AuthProvider><App /></AuthProvider></BrowserRouter></QueryClientProvider>)"
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "action": "create",
+          "purpose": "<Routes> with one <Route> per page: /inicio, /catlogodeproductos, /detalledeproducto, /carritodecompras, /login, /register, /cart. Catch-all \u2192 NotFoundPage. Protected routes wrapped in <RequireAuth>."
+        },
+        {
+          "path": "frontend/src/lib/api.ts",
+          "action": "create",
+          "purpose": "Base HTTP client. ONLY relative URLs. Reads JWT from localStorage('token'). Attaches Authorization: Bearer. Throws ApiError(message, status) on non-2xx."
+        },
+        {
+          "path": "frontend/src/contexts/AuthContext.tsx",
+          "action": "create",
+          "purpose": "React context: { user, token, login(), logout() }. Exports useAuth()."
+        },
+        {
+          "path": "frontend/nginx.conf",
+          "action": "create",
+          "purpose": "nginx: root /usr/share/nginx/html; try_files $uri $uri/ /index.html (SPA). location /api/ { proxy_pass http://backend:23001/api/; proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; } listen 80."
+        },
+        {
+          "path": "frontend/Dockerfile",
+          "action": "create",
+          "purpose": "Stage 1 (node:20-alpine AS builder): npm ci + npm run build. Stage 2 (nginx:alpine): COPY dist \u2192 /usr/share/nginx/html + nginx.conf. EXPOSE 80."
+        },
+        {
+          "path": "docker-compose.yml",
+          "action": "modify",
+          "purpose": "Add 'frontend' service: build: { context: ./frontend }, ports: ['3000:80'], depends_on: [backend], network: project_network. NO API_URL env vars in the environment block."
+        }
+      ],
+      "dependencies": "None",
+      "validation": "frontend/package.json exists. A framework config file exists (vite.config.*, next.config.js, angular.json, svelte.config.js, nuxt.config.ts, or equivalent). grep -rn 'http://localhost\\|http://backend\\|http://127\\|API_URL' frontend/src returns ZERO matches \u2014 all API calls use relative paths. frontend/nginx.conf exists with proxy_pass for /api/. frontend/Dockerfile exists with at least two FROM stages (builder + runtime). docker-compose.yml has a 'frontend:' service entry with no *_API_URL environment vars.",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 5
+    },
+    {
+      "item_number": 9,
+      "title": "Design Tokens File",
+      "goal": "Centralize all design tokens from Figma for use in Tailwind and custom styles",
+      "design_specs": {
+        "primary": "#1A1A2E",
+        "secondary": "#E94560",
+        "accent": "#0F3460",
+        "background": "#F5F5F5",
+        "surface": "#FFFFFF",
+        "text_primary": "#1A1A2E",
+        "text_secondary": "#6B7280",
+        "text_on_primary": "#FFFFFF",
+        "border": "#E5E7EB",
+        "success": "#10B981",
+        "error": "#EF4444",
+        "discount_badge": "#E94560",
+        "font_family": "'Inter', sans-serif",
+        "h1": "36px, 700, 1.2",
+        "h2": "28px, 600, 1.3",
+        "h3": "22px, 600, 1.4",
+        "h4": "18px, 500, 1.5",
+        "body": "16px, 400, 1.6",
+        "small": "14px, 400, 1.5",
+        "caption": "12px, 400, 1.4",
+        "button": "16px, 600, letter-spacing 0.5px",
+        "spacing": "xs: 4px, sm: 8px, md: 16px, lg: 24px, xl: 32px, 2xl: 48px, 3xl: 64px",
+        "border_radius": "sm: 4px, md: 8px, lg: 12px, xl: 16px, full: 9999px",
+        "shadows": "card: 0 2px 8px rgba(0,0,0,0.08), dropdown: 0 4px 16px rgba(0,0,0,0.12), modal: 0 8px 32px rgba(0,0,0,0.2)"
+      },
+      "files": [
+        {
+          "path": "frontend/src/styles/tokens.ts",
+          "action": "create",
+          "purpose": "Central design tokens export"
+        }
+      ],
+      "dependencies": "None",
+      "validation": "All tokens present with exact values, file imported in at least one component, no missing or extra tokens",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 5
+    },
+    {
+      "item_number": 10,
+      "title": "InicioPage",
+      "goal": "Implements the \"Inicio\" Figma frame as the homepage",
+      "design_specs": {
+        "background": "#F5F5F5",
+        "navbar": "#1A1A2E",
+        "cta": "#E94560",
+        "text": "#1A1A2E, #6B7280",
+        "card_surface": "#FFFFFF",
+        "hero_title": "36px, 700, 1.2, 'Inter'",
+        "section_titles": "28px, 600, 1.3, 'Inter'",
+        "body": "16px, 400, 1.6, 'Inter'",
+        "button": "16px, 600, letter-spacing 0.5px",
+        "page_horizontal_padding": "120px",
+        "section_vertical_padding": "48px",
+        "card_padding": "24px",
+        "grid_gap": "24px",
+        "vertical_stack": "Navbar, hero, featured products grid, benefits row, recommendations, footer",
+        "featured_products": "4-column grid (min 320px card), gap 24px",
+        "responsive": "Collapse to 2 columns at 768px, 1 column at 480px",
+        "cta_hover": "opacity 0.9",
+        "product_card_hover": "shadow 0 2px 8px rgba(0,0,0,0.08) \u2192 0 8px 16px rgba(0,0,0,0.18)"
+      },
+      "files": [
+        {
+          "path": "frontend/src/pages/InicioPage.tsx",
+          "action": "create",
+          "purpose": "Homepage layout and data"
+        }
+      ],
+      "dependencies": "Item 9",
+      "validation": "All sections rendered, correct colors, grid responsive at 768px, CTA and cards have correct hover, products loaded from API",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 6
+    },
+    {
+      "item_number": 11,
+      "title": "CatalogoDeProductosPage",
+      "goal": "Implements the \"Cat\u00e1logo de productos\" Figma frame as the product catalog page",
+      "design_specs": {
+        "background": "#F5F5F5",
+        "sidebar/filters": "#FFFFFF",
+        "product_card": "#FFFFFF",
+        "cta": "#E94560",
+        "text": "#1A1A2E, #6B7280",
+        "discount_badge": "#E94560",
+        "page_title": "36px, 700, 1.2, 'Inter'",
+        "filter_labels": "16px, 500, 1.6, 'Inter'",
+        "product_name": "16px, 600, 1.6",
+        "price": "16px, 400, 1.6",
+        "button": "16px, 600, letter-spacing 0.5px",
+        "page_horizontal_padding": "120px",
+        "sidebar_width": "260px",
+        "grid_gap": "24px",
+        "card_padding": "20px",
+        "2-column": "Sidebar (filters) left, product grid right",
+        "product_grid": "3 columns (min 320px), gap 24px",
+        "responsive": "Sidebar collapses to top at <1024px, grid to 1 column at <640px",
+        "filter_checkbox": "accent color #0F3460 when checked",
+        "product_card_hover": "shadow 0 2px 8px rgba(0,0,0,0.08) \u2192 0 8px 16px rgba(0,0,0,0.18)"
+      },
+      "files": [
+        {
+          "path": "frontend/src/pages/CatalogoDeProductosPage.tsx",
+          "action": "create",
+          "purpose": "Product catalog with filters"
+        }
+      ],
+      "dependencies": "Item 9",
+      "validation": "Filters functional, products loaded from API, correct colors, responsive at 1024px/640px, hover states present",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 6
+    },
+    {
+      "item_number": 12,
+      "title": "DetalleDeProductoPage",
+      "goal": "Implements the \"Detalle de producto\" Figma frame as the product detail page",
+      "design_specs": {
+        "background": "#F5F5F5",
+        "surface": "#FFFFFF",
+        "cta": "#E94560",
+        "discount_badge": "#E94560",
+        "text": "#1A1A2E, #6B7280",
+        "border": "#E5E7EB",
+        "product_name": "28px, 700, 1.3, 'Inter'",
+        "price": "22px, 600, 1.4",
+        "description": "16px, 400, 1.6",
+        "button": "16px, 600, letter-spacing 0.5px",
+        "page_horizontal_padding": "120px",
+        "section_vertical_padding": "48px",
+        "card_padding": "24px",
+        "image_block": "420px x 420px",
+        "gap_between_image/info": "48px",
+        "2-column": "Image left (420px), info right (flex 1)",
+        "responsive": "Stack columns at <900px",
+        "cta_hover": "opacity 0.9",
+        "quantity_selector": "-/+ buttons, disabled at min/max"
+      },
+      "files": [
+        {
+          "path": "frontend/src/pages/DetalleDeProductoPage.tsx",
+          "action": "create",
+          "purpose": "Product detail layout and logic"
+        }
+      ],
+      "dependencies": "Item 9",
+      "validation": "Product loaded from API, correct colors, responsive at 900px, all states present, add-to-cart functional",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 6
+    },
+    {
+      "item_number": 13,
+      "title": "CarritoDeComprasPage",
+      "goal": "Implements the \"Carrito de compras\" Figma frame as the cart page",
+      "design_specs": {
+        "background": "#F5F5F5",
+        "navbar/hero": "#1A1A2E",
+        "cart_item": "#FFFFFF",
+        "order_summary": "#FFFFFF",
+        "cta": "#E94560",
+        "discount_badge": "#E94560",
+        "text": "#1A1A2E, #6B7280",
+        "border": "#E5E7EB",
+        "hero_title": "36px, 700, 1.2, 'Inter'",
+        "cart_item_name": "16px, 600, 1.6",
+        "price": "16px, 400, 1.6",
+        "order_summary_title": "22px, 600, 1.4",
+        "button": "16px, 600, letter-spacing 0.5px",
+        "page_horizontal_padding": "120px",
+        "section_vertical_padding": "48px",
+        "cart_item_padding": "20px",
+        "order_summary_card_padding": "28px",
+        "gap_between_columns": "48px",
+        "2-column": "Cart items left (min 480px), order summary right (min 340px, sticky)",
+        "responsive": "Stack columns at <900px",
+        "remove": "hover color #E94560",
+        "quantity_selector": "-/+ buttons, disabled at min/max",
+        "cta_hover": "opacity 0.9"
+      },
+      "files": [
+        {
+          "path": "frontend/src/pages/CarritoDeComprasPage.tsx",
+          "action": "create",
+          "purpose": "Cart page layout and logic"
+        }
+      ],
+      "dependencies": "Item 9",
+      "validation": "Cart loaded from API, correct colors, responsive at 900px, all states present, quantity/remove functional",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 6
+    },
+    {
+      "item_number": 14,
+      "title": "OrderHistoryPage",
+      "goal": "Implements order history page for /api/orders (not covered by Figma)",
+      "design_specs": {
+        "background": "#F5F5F5",
+        "card": "#FFFFFF",
+        "text": "#1A1A2E, #6B7280",
+        "success": "#10B981",
+        "error": "#EF4444",
+        "border": "#E5E7EB",
+        "page_title": "28px, 600, 1.3, 'Inter'",
+        "order_id": "16px, 600, 1.6",
+        "status": "14px, 600, 1.5",
+        "date": "14px, 400, 1.5",
+        "amount": "16px, 600, 1.6",
+        "page_horizontal_padding": "120px",
+        "card_padding": "24px",
+        "gap_between_orders": "24px",
+        "vertical_stack": "Navbar, title, order cards, footer",
+        "responsive": "Card width 100% at <640px",
+        "status_badge": "#10B981 for 'paid', #EF4444 for 'cancelled', #E94560 for 'pending'"
+      },
+      "files": [
+        {
+          "path": "frontend/src/pages/OrderHistoryPage.tsx",
+          "action": "create",
+          "purpose": "Order history list"
+        }
+      ],
+      "dependencies": "Item 9",
+      "validation": "Orders loaded from API, correct status colors, responsive at 640px, no placeholder text",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 6
+    },
+    {
+      "item_number": 15,
+      "title": "NavbarPrincipal",
+      "goal": "Implements the \"Navbar principal\" Figma component as a shared UI component",
+      "design_specs": {
+        "background": "#1A1A2E",
+        "logo/text": "#FFFFFF",
+        "active_link": "#E94560",
+        "cart_icon": "#E94560 (active), #FFFFFF (default)",
+        "user_menu": "16px, 400, 1.6",
+        "logo": "22px, 700, 1.4, 'Inter'",
+        "nav_links": "16px, 600, 1.6",
+        "height": "88px",
+        "horizontal_padding": "72px",
+        "gap_between_links": "32px",
+        "flex_row": "logo left, nav links center, search/cart/user right",
+        "link_hover": "underline, color #E94560",
+        "cart_pill": "#E94560 background, #FFFFFF text, border-radius: 9999px"
+      },
+      "files": [
+        {
+          "path": "frontend/src/components/ui/NavbarPrincipal.tsx",
+          "action": "create",
+          "purpose": "Main navigation bar"
+        }
+      ],
+      "dependencies": "Item 9",
+      "validation": "All links present, sticky at top, responsive hamburger at <1024px, cart pill shows count, correct colors",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 6
+    },
+    {
+      "item_number": 16,
+      "title": "BotonCtaPrimario",
+      "goal": "Implements the \"Bot\u00f3n CTA primario\" Figma component as a shared UI component",
+      "design_specs": {
+        "background": "#E94560",
+        "text": "#FFFFFF",
+        "button": "16px, 600, letter-spacing 0.5px, 'Inter'",
+        "padding": "12px 32px",
+        "border-radius": "12px",
+        "hover": "opacity 0.9",
+        "disabled": "opacity 0.5, cursor-not-allowed"
+      },
+      "files": [
+        {
+          "path": "frontend/src/components/ui/BotonCtaPrimario.tsx",
+          "action": "create",
+          "purpose": "Primary CTA button"
+        }
+      ],
+      "dependencies": "Item 9",
+      "validation": "Correct color, radius, hover/disabled states, text style, props for fullWidth/disabled",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 6
+    },
+    {
+      "item_number": 17,
+      "title": "TarjetaDeProducto",
+      "goal": "Implements the \"Tarjeta de producto\" Figma component as a shared UI component",
+      "design_specs": {
+        "card": "#FFFFFF",
+        "name": "16px, 600, 1.6, 'Inter'",
+        "price": "16px, 400, 1.6",
+        "badge": "12px, 600, 1.4",
+        "border": "#E5E7EB",
+        "padding": "20px",
+        "image": "180px x 180px, border-radius: 10px",
+        "gap": "12px",
+        "vertical_stack": "image, badge, name, prices, CTA",
+        "card_border-radius": "12px",
+        "shadow": "0 2px 8px rgba(0,0,0,0.08)",
+        "hover": "shadow 0 8px 16px rgba(0,0,0,0.18), translateY(-2px)"
+      },
+      "files": [
+        {
+          "path": "frontend/src/components/ui/TarjetaDeProducto.tsx",
+          "action": "create",
+          "purpose": "Product card"
+        }
+      ],
+      "dependencies": "Item 9",
+      "validation": "Correct colors, badge, hover state, all props present, responsive image",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 6
+    },
+    {
+      "item_number": 18,
+      "title": "InputDeBusqueda",
+      "goal": "Implements the \"Input de b\u00fasqueda\" Figma component as a shared UI component",
+      "design_specs": {
+        "background": "#FFFFFF",
+        "border": "#E5E7EB",
+        "icon": "#6B7280",
+        "placeholder": "#6B7280",
+        "text": "#1A1A2E",
+        "input": "16px, 400, 1.6, 'Inter'",
+        "padding": "12px 16px",
+        "icon_size": "20px",
+        "border-radius": "8px",
+        "flex_row": "icon left, input right",
+        "width": "260px (default), full width on mobile",
+        "focus": "border #0F3460, shadow 0 0 0 2px #E9456033"
+      },
+      "files": [
+        {
+          "path": "frontend/src/components/ui/InputDeBusqueda.tsx",
+          "action": "create",
+          "purpose": "Search input with icon"
+        }
+      ],
+      "dependencies": "Item 9",
+      "validation": "Correct colors, icon, focus state, placeholder, responsive width",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 6
+    },
+    {
+      "item_number": 19,
+      "title": "FiltrosDeCatalogo",
+      "goal": "Implements the \"Filtros de cat\u00e1logo\" Figma component as a shared UI component",
+      "design_specs": {
+        "background": "#FFFFFF",
+        "border": "#E5E7EB",
+        "checkbox_checked": "background #0F3460, checkmark #FFFFFF",
+        "checkbox_border": "#E5E7EB",
+        "label": "16px, 500, 1.6, 'Inter'",
+        "option": "14px, 400, 1.5",
+        "padding": "24px",
+        "gap_between_filters": "18px",
+        "checkbox": "20px",
+        "vertical_stack": "filter group, options",
+        "border-radius": "12px",
+        "checkbox_hover": "border #0F3460"
+      },
+      "files": [
+        {
+          "path": "frontend/src/components/ui/FiltrosDeCatalogo.tsx",
+          "action": "create",
+          "purpose": "Catalog filters panel"
+        }
+      ],
+      "dependencies": "Item 9",
+      "validation": "Correct colors, checkboxes, hover/checked states, all filter groups present",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 6
+    },
+    {
+      "item_number": 20,
+      "title": "BadgeDeDescuento",
+      "goal": "Implements the \"Badge de descuento\" Figma component as a shared UI component",
+      "design_specs": {
+        "background": "#E94560",
+        "text": "#FFFFFF",
+        "badge": "12px, 600, 1.4, 'Inter'",
+        "padding": "4px 12px",
+        "border-radius": "9999px"
+      },
+      "files": [
+        {
+          "path": "frontend/src/components/ui/BadgeDeDescuento.tsx",
+          "action": "create",
+          "purpose": "Discount badge"
+        }
+      ],
+      "dependencies": "Item 9",
+      "validation": "Correct color, radius, text style, no hover/focus",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 6
+    },
+    {
+      "item_number": 21,
+      "title": "Footer",
+      "goal": "Implements the \"Footer\" Figma component as a shared UI component",
+      "design_specs": {
+        "background": "#1A1A2E",
+        "text": "#FFFFFF",
+        "link_hover": "underline, color #E94560",
+        "links": "14px, 400, 1.5, 'Inter'",
+        "section_titles": "16px, 600, 1.6",
+        "padding": "48px 120px",
+        "gap_between_columns": "32px"
+      },
+      "files": [
+        {
+          "path": "frontend/src/components/ui/Footer.tsx",
+          "action": "create",
+          "purpose": "Page footer"
+        }
+      ],
+      "dependencies": "Item 9",
+      "validation": "All links present, correct colors, responsive columns, hover state",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 6
+    },
+    {
+      "item_number": 22,
+      "title": "ModalDeCarrito",
+      "goal": "Implements the \"Modal de carrito\" Figma component as a shared UI component",
+      "design_specs": {
+        "panel": "#FFFFFF",
+        "overlay": "rgba(26,26,46,0.48)",
+        "cta": "#E94560",
+        "text": "#1A1A2E, #6B7280",
+        "title": "22px, 600, 1.4, 'Inter'",
+        "item_name": "16px, 600, 1.6",
+        "price": "16px, 400, 1.6",
+        "button": "16px, 600, letter-spacing 0.5px",
+        "panel_width": "420px",
+        "padding": "32px",
+        "gap_between_items": "18px",
+        "responsive": "full width at <480px",
+        "overlay_click": "closes modal",
+        "cta_hover": "opacity 0.9"
+      },
+      "files": [
+        {
+          "path": "frontend/src/components/ui/ModalDeCarrito.tsx",
+          "action": "create",
+          "purpose": "Cart modal panel"
+        }
+      ],
+      "dependencies": "Item 9",
+      "validation": "Opens/closes, correct overlay, responsive width, all items/total shown, CTA works",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 6
+    },
+    {
+      "item_number": 23,
+      "title": "FormularioDeCheckout",
+      "goal": "Implements the \"Formulario de checkout\" Figma component as a shared UI component",
+      "design_specs": {
+        "background": "#FFFFFF",
+        "input_border": "#E5E7EB",
+        "label": "14px, 500, 1.5",
+        "error": "border #EF4444, text #EF4444",
+        "cta": "#E94560",
+        "section_title": "22px, 600, 1.4, 'Inter'",
+        "input": "16px, 400, 1.6",
+        "button": "16px, 600, letter-spacing 0.5px",
+        "section_padding": "32px",
+        "input_padding": "12px 16px",
+        "gap_between_fields": "18px",
+        "vertical_stack": "sections for shipping, payment, summary",
+        "card_border-radius": "16px",
+        "input_focus": "border #0F3460, shadow 0 0 0 2px #E9456033",
+        "cta_hover": "opacity 0.9"
+      },
+      "files": [
+        {
+          "path": "frontend/src/components/ui/FormularioDeCheckout.tsx",
+          "action": "create",
+          "purpose": "Checkout form"
+        }
+      ],
+      "dependencies": "Item 9",
+      "validation": "All sections/fields present, correct colors, error/focus states, CTA works",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 6
+    },
+    {
+      "item_number": 24,
+      "title": "SelectorDeCantidad",
+      "goal": "Implements the \"Selector de cantidad\" Figma component as a shared UI component",
+      "design_specs": {
+        "button": "16px, 600, 1.6",
+        "disabled": "background #E5E7EB, text #6B7280, cursor-not-allowed",
+        "text": "#1A1A2E",
+        "border": "1px solid #E5E7EB",
+        "number": "16px, 600, 1.6, 'Inter'",
+        "button_size": "32px x 32px",
+        "gap": "8px",
+        "flex_row": "- button, number, + button",
+        "border-radius": "8px",
+        "button_hover": "background #0F3460, text #FFFFFF"
+      },
+      "files": [
+        {
+          "path": "frontend/src/components/ui/SelectorDeCantidad.tsx",
+          "action": "create",
+          "purpose": "Quantity selector"
+        }
+      ],
+      "dependencies": "Item 9",
+      "validation": "Correct colors, disabled/hover states, min/max enforced, accessible",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 6
+    },
+    {
+      "item_number": 25,
+      "title": "useAuth Hook",
+      "goal": "Implements API hooks for authentication endpoints",
+      "design_specs": {},
+      "files": [
+        {
+          "path": "frontend/src/hooks/useAuth.ts",
+          "action": "create",
+          "purpose": "Auth API hook (login, register, me, refresh)"
+        }
+      ],
+      "dependencies": "None",
+      "validation": "Exposes { data, loading, error } for each method, uses relative API paths, no fetch in JSX",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 5
+    },
+    {
+      "item_number": 26,
+      "title": "useProducts Hook",
+      "goal": "Implements API hooks for product endpoints",
+      "design_specs": {},
+      "files": [
+        {
+          "path": "frontend/src/hooks/useProducts.ts",
+          "action": "create",
+          "purpose": "Products API hook (list, detail)"
+        }
+      ],
+      "dependencies": "None",
+      "validation": "Exposes { data, loading, error } for list/detail, uses relative API paths, no fetch in JSX",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 5
+    },
+    {
+      "item_number": 27,
+      "title": "useCategories Hook",
+      "goal": "Implements API hooks for category endpoints",
+      "design_specs": {},
+      "files": [
+        {
+          "path": "frontend/src/hooks/useCategories.ts",
+          "action": "create",
+          "purpose": "Categories API hook (list)"
+        }
+      ],
+      "dependencies": "None",
+      "validation": "Exposes { data, loading, error } for list, uses relative API paths, no fetch in JSX",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 5
+    },
+    {
+      "item_number": 28,
+      "title": "useCart Hook",
+      "goal": "Implements API hooks for cart endpoints",
+      "design_specs": {},
+      "files": [
+        {
+          "path": "frontend/src/hooks/useCart.ts",
+          "action": "create",
+          "purpose": "Cart API hook (get, add, update, remove)"
+        }
+      ],
+      "dependencies": "None",
+      "validation": "Exposes { data, loading, error } for all methods, uses relative API paths, no fetch in JSX",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 5
+    },
+    {
+      "item_number": 29,
+      "title": "useOrders Hook",
+      "goal": "Implements API hooks for order endpoints",
+      "design_specs": {},
+      "files": [
+        {
+          "path": "frontend/src/hooks/useOrders.ts",
+          "action": "create",
+          "purpose": "Orders API hook (list, detail, create)"
+        }
+      ],
+      "dependencies": "None",
+      "validation": "Exposes { data, loading, error } for all methods, uses relative API paths, no fetch in JSX",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 5
+    },
+    {
+      "item_number": 30,
+      "title": "Frontend E2E Tests \u2014 Full-Stack Integration",
+      "goal": "Write Playwright E2E tests that drive real browser UI events and verify correct backend API responses. RULES: (1) Each test navigates to a real page. (2) Uses page.click()/fill()/select() to trigger actions. (3) Uses page.waitForResponse() to intercept and assert the correct API endpoint was called with correct payload. (4) Asserts backend response data appears in DOM. NO MOCKS \u2014 tests hit the real backend via docker-compose. API contract at `docs/uiux/api-contract.yaml`.",
+      "design_specs": {
+        "intercept_pattern": "await page.waitForResponse(r => r.url().includes('/api/products') && r.status() === 200)",
+        "assertion_pattern": "await expect(page.locator('[data-testid=product-card]')).toHaveCount(greaterThan(0))",
+        "no_mocks": "NEVER use page.route() to return fake data \u2014 always let requests reach the real backend",
+        "auth_pattern": "await page.evaluate(() => localStorage.getItem('token')) to assert JWT stored"
+      },
+      "files": [
+        {
+          "path": "frontend/e2e/auth.spec.ts",
+          "action": "create",
+          "purpose": "Register new user \u2192 intercept POST /api/auth/register, assert 201. Login \u2192 intercept POST /api/auth/login, assert token stored in localStorage. Access protected route \u2192 assert Authorization header sent. Logout \u2192 assert localStorage cleared."
+        },
+        {
+          "path": "frontend/e2e/cart.spec.ts",
+          "action": "create",
+          "purpose": "Add product to cart \u2192 waitForResponse(/\\/api\\/cart/), assert item appears. Update quantity \u2192 assert PUT /api/cart/items/:id called, total updates. Remove item \u2192 assert DELETE called, item disappears from DOM."
+        },
+        {
+          "path": "frontend/playwright.config.ts",
+          "action": "create",
+          "purpose": "Playwright config: baseURL='http://localhost:3000', testDir='./e2e', timeout=30000. Reference docs/uiux/api-contract.yaml for endpoint paths. No webServer block \u2014 assume docker-compose up is run externally."
+        }
+      ],
+      "dependencies": "Item 29",
+      "validation": "playwright.config.ts exists with baseURL. Each spec file imports from @playwright/test only \u2014 no MSW, no fetch-mock. Tests use page.waitForResponse() to assert API calls \u2014 not just page.goto(). No hardcoded http://localhost:PORT in test assertions \u2014 use baseURL. Auth spec asserts localStorage contains token after login.",
+      "status": "done",
+      "role_id": "frontend_developer",
+      "role_category": "frontend",
+      "wave": 8
+    },
+    {
+      "item_number": "fix-integration-1",
+      "title": "Integration fix: Frontend calls '/api/products/${id}' but it's not in api_contract.yaml",
+      "goal": "Frontend calls '/api/products/${id}' but it's not in api_contract.yaml",
+      "files": [],
+      "dependencies": "All prior items",
+      "validation": "API contract, backend routes, and frontend calls are consistent",
+      "wave": 9,
+      "status": "done",
+      "is_integration_fix": true
+    },
+    {
+      "item_number": "fix-integration-2",
+      "title": "Integration fix: Frontend calls '/api/products/${p}' but it's not in api_contract.yaml",
+      "goal": "Frontend calls '/api/products/${p}' but it's not in api_contract.yaml",
+      "files": [],
+      "dependencies": "All prior items",
+      "validation": "API contract, backend routes, and frontend calls are consistent",
+      "wave": 9,
+      "status": "done",
+      "is_integration_fix": true
+    },
+    {
+      "item_number": "fix-integration-3",
+      "title": "Integration fix: Contract defines POST /api/auth/login but no matching backend route found",
+      "goal": "Contract defines POST /api/auth/login but no matching backend route found",
+      "files": [],
+      "dependencies": "All prior items",
+      "validation": "API contract, backend routes, and frontend calls are consistent",
+      "wave": 9,
+      "status": "done",
+      "is_integration_fix": true
+    },
+    {
+      "item_number": "fix-integration-4",
+      "title": "Integration fix: Contract defines GET /api/auth/me but no matching backend route found",
+      "goal": "Contract defines GET /api/auth/me but no matching backend route found",
+      "files": [],
+      "dependencies": "All prior items",
+      "validation": "API contract, backend routes, and frontend calls are consistent",
+      "wave": 9,
+      "status": "pending",
+      "is_integration_fix": true
+    },
+    {
+      "item_number": "fix-integration-5",
+      "title": "Integration fix: Contract defines POST /api/auth/refresh but no matching backend route found",
+      "goal": "Contract defines POST /api/auth/refresh but no matching backend route found",
+      "files": [],
+      "dependencies": "All prior items",
+      "validation": "API contract, backend routes, and frontend calls are consistent",
+      "wave": 9,
+      "status": "pending",
+      "is_integration_fix": true
+    }
+  ],
+  "qa_sync_completed": true,
+  "integration_check_done": true,
+  "thread_id": "run-cce8c352-99c4-450f-949a-c39d2d04a608",
+  "timestamp": 1779470555.8915899
+}
