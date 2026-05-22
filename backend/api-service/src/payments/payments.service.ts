@@ -13,11 +13,20 @@ export class PaymentsService {
   constructor(private readonly ordersService: OrdersService) {
     const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
     if (!stripeSecretKey) {
-      throw new Error('STRIPE_SECRET_KEY environment variable is required');
+      this.stripe = null as unknown as Stripe;
+      this.logger.warn('STRIPE_SECRET_KEY not provided, payments service will not process transactions');
+      return;
     }
     this.stripe = new Stripe(stripeSecretKey, {
       apiVersion: STRIPE_CONFIG.API_VERSION as Stripe.LatestApiVersion,
     });
+  }
+
+  private ensureStripe(): Stripe {
+    if (!this.stripe) {
+      throw new BadRequestException('Stripe is not configured. Please set STRIPE_SECRET_KEY environment variable.');
+    }
+    return this.stripe;
   }
 
   async createSession(userId: string, dto: CreatePaymentSessionDto): Promise<PaymentSessionResponseDto> {
@@ -27,6 +36,10 @@ export class PaymentsService {
 
     if (order.status !== ORDER_STATUS.PENDING) {
       throw new BadRequestException(`Order ${dto.orderId} is not in pending status`);
+    }
+
+    if (!this.stripe) {
+      throw new BadRequestException('Stripe is not configured. Please set STRIPE_SECRET_KEY environment variable.');
     }
 
     const successUrl = process.env.STRIPE_SUCCESS_URL || 'http://localhost:24000/success';
