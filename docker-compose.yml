@@ -49,8 +49,7 @@ services:
       context: ./backend/api-service
       dockerfile: Dockerfile
     container_name: ecommerce_api
-    ports:
-      - "${API_PORT:-23001}:23001"
+    network_mode: host
     environment:
       NODE_ENV: ${NODE_ENV:-development}
       PORT: 23001
@@ -92,8 +91,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: ecommerce_frontend
-    ports:
-      - "${FRONTEND_PORT:-24000}:80"
+    network_mode: host
     depends_on:
       - api
     networks:
