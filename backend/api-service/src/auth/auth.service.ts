@@ -6,6 +6,7 @@ import { RegisterDto, LoginDto } from './auth.dto';
 import { hashPassword, comparePassword, generateUUID, isValidEmail } from '../shared/utils';
 import { ROLES } from '../shared/types';
 import * as jwt from 'jsonwebtoken';
+import type { SignOptions } from 'jsonwebtoken';
 import { JWT_CONFIG } from '../shared/constants';
 
 @Injectable()
@@ -104,16 +105,19 @@ export class AuthService {
   }
 
   generateTokens(user: User): { accessToken: string; refreshToken: string; expiresIn: number } {
+    const accessOptions: SignOptions = { expiresIn: JWT_CONFIG.ACCESS_TOKEN_EXPIRES_IN, algorithm: JWT_CONFIG.ALGORITHM };
+    const refreshOptions: SignOptions = { expiresIn: JWT_CONFIG.REFRESH_TOKEN_EXPIRES_IN, algorithm: JWT_CONFIG.ALGORITHM };
+
     const accessToken = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET || 'default-secret-change-in-production',
-      { expiresIn: JWT_CONFIG.ACCESS_TOKEN_EXPIRES_IN }
+      accessOptions,
     );
 
     const refreshToken = jwt.sign(
       { userId: user.id },
       process.env.JWT_REFRESH_SECRET || 'default-refresh-secret-change-in-production',
-      { expiresIn: JWT_CONFIG.REFRESH_TOKEN_EXPIRES_IN }
+      refreshOptions,
     );
 
     const expiresIn = this.parseExpiresIn(JWT_CONFIG.ACCESS_TOKEN_EXPIRES_IN);

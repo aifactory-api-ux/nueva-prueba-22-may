@@ -10,6 +10,10 @@ function getOptionalEnvVar(name: string, defaultValue: string): string {
   return process.env[name] || defaultValue;
 }
 
+function getOptionalStringEnvVar(name: string): string | undefined {
+  return process.env[name] || undefined;
+}
+
 function getOptionalIntEnvVar(name: string, defaultValue: number): number {
   const value = process.env[name];
   return value ? parseInt(value, 10) : defaultValue;
@@ -30,7 +34,7 @@ export interface RedisConfig {
 export const redisConfig: RedisConfig = {
   host: getOptionalEnvVar('REDIS_HOST', 'localhost'),
   port: getOptionalIntEnvVar('REDIS_PORT', 26379),
-  password: getOptionalEnvVar('REDIS_PASSWORD', undefined),
+  password: getOptionalStringEnvVar('REDIS_PASSWORD'),
   db: getOptionalIntEnvVar('REDIS_DB', 0),
   keyPrefix: getOptionalEnvVar('REDIS_KEY_PREFIX', 'ecommerce:'),
   ttl: getOptionalIntEnvVar('REDIS_TTL', 604800),

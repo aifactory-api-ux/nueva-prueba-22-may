@@ -20,9 +20,9 @@ export const CURRENCY_CODES = {
 export const DEFAULT_CURRENCY = CURRENCY_CODES.USD;
 
 export const JWT_CONFIG = {
-  ACCESS_TOKEN_EXPIRES_IN: '1h',
-  REFRESH_TOKEN_EXPIRES_IN: '7d',
-  ALGORITHM: 'HS256',
+  ACCESS_TOKEN_EXPIRES_IN: '1h' as const,
+  REFRESH_TOKEN_EXPIRES_IN: '7d' as const,
+  ALGORITHM: 'HS256' as const,
 };
 
 export const API_CONFIG = {
