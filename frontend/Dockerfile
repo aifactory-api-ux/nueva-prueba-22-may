@@ -1,6 +1,6 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
-COPY package*.json ./
+COPY package*.json tsconfig.json tsconfig.node.json vite.config.ts ./
 RUN npm install
 COPY src ./src
 RUN npm run build
