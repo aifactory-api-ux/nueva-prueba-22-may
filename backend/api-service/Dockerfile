@@ -1,14 +1,14 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
-COPY backend/api-service/package*.json ./
+COPY package*.json ./
 RUN npm install
-COPY backend/api-service/src ./src
+COPY src ./src
 COPY shared ./shared
 RUN npm run build
 
 FROM node:20-alpine AS production
 WORKDIR /app
-COPY backend/api-service/package*.json ./
+COPY package*.json ./
 RUN npm install --omit=dev
 COPY --from=builder /app/dist ./dist
 
