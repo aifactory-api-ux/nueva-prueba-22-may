@@ -60,7 +60,7 @@ services:
       REDIS_PORT: 6379
       REDIS_PASSWORD: ${REDIS_PASSWORD:-}
       REDIS_DB: 0
-      REDIS_KEY_PREFIX: ecommerce:
+      REDIS_KEY_PREFIX: "ecommerce:"
       REDIS_TTL: 604800
       JWT_SECRET: ${JWT_SECRET:-change-this-secret-in-production}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-change-this-refresh-secret-in-production}
