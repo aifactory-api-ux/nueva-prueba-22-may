@@ -31,7 +31,7 @@ cd "$SCRIPT_DIR"
 
 echo "Building and starting services..."
 $DOCKER_COMPOSE_CMD down --remove-orphans 2>/dev/null || true
-$DOCKER_COMPOSE_CMD build --no-cache api-service
+$DOCKER_COMPOSE_CMD build --no-cache api
 $DOCKER_COMPOSE_CMD up -d
 
 echo "Waiting for services to be healthy..."
@@ -41,7 +41,7 @@ ELAPSED=0
 INTERVAL=5
 
 while [ $ELAPSED -lt $MAX_WAIT ]; do
-    API_HEALTH=$($DOCKER_COMPOSE_CMD exec -T api-service wget -qO- http://localhost:23001/api/health 2>/dev/null || echo "")
+    API_HEALTH=$($DOCKER_COMPOSE_CMD exec -T api wget -qO- http://localhost:23001/api/health 2>/dev/null || echo "")
 
     if echo "$API_HEALTH" | grep -q "ok"; then
         echo ""
